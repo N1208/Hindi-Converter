@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Hindi Legacy Converter</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f6f9; color: #333; }
+        h2 { color: #1a73e8; text-align: center; }
+        p { text-align: center; color: #666; margin-top: -10px; font-size: 14px; }
+        textarea { width: 100%; height: 200px; padding: 12px; box-sizing: border-box; border: 2px solid #dadce0; border-radius: 8px; font-size: 16px; resize: vertical; margin-bottom: 15px; }
+        textarea:focus { border-color: #1a73e8; outline: none; }
+        .btn-container { text-align: center; margin-bottom: 20px; }
+        button { background-color: #1a73e8; color: white; border: none; padding: 12px 30px; font-size: 16px; border-radius: 24px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s; }
+        button:hover { background-color: #1557b0; }
+        .output-box { background: white; border: 1px solid #dadce0; border-radius: 8px; padding: 15px; min-height: 150px; white-space: pre-wrap; font-size: 16px; line-height: 1.6; }
+        .label { font-weight: bold; margin-bottom: 5px; display: block; color: #5f6368; }
+    </style>
+</head>
+<body>
+
+    <h2>Smart Kruti Dev to Hindi Unicode Converter</h2>
+    <p>Preserves real English words while converting legacy text gibberish automatically.</p>
+
+    <span class="label">Paste your mixed Google Doc text here:</span>
+    <textarea id="inputText" placeholder="Paste your mixed text (e.g., Httjrी; dtiuी vfètfu;e] 1956 and Coffee Act) here..."></textarea>
+
+    <div class="btn-container">
+        <button onclick="smartConvert()">Convert Whole Document</button>
+    </div>
+
+    <span class="label">Converted Output (Ready to Copy):</span>
+    <div id="outputText" class="output-box">Your converted text will appear here...</div>
+
+    <script>
+        // List of common English words/legal terms to preserve in documents
+        const englishKeywords = new Set([
+            "act", "coffee", "section", "sections", "rule", "rules", "government", "india", "of", "and", "the", "to", "in", "is", "for", 
+            "on", "by", "an", "this", "that", "with", "as", "at", "from", "into", "during", "including", "under", "defined", "means"
+        ]);
+
+        function isRealEnglishWord(word) {
+            // Remove common punctuation to check the core word
+            let cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()\[\]\"\'’‘“”]/g, "").toLowerCase();
+            
+            // Check if it's a number
+            if (!isNaN(cleanWord) && cleanWord !== "") return true;
+            
+            // Check against our dictionary
+            return englishKeywords.has(cleanWord);
+        }
+
+        function convertWordKrutiToUnicode(src) {
